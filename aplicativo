@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Massa Real - Cardápio Digital</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { width: 90%; max-width: 600px; margin: auto; }
+        .category { font-size: 20px; font-weight: bold; margin-top: 20px; }
+        .item { border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .btn { background-color: #ff6600; color: white; padding: 10px; border: none; cursor: pointer; }
+        .btn:hover { background-color: #cc5500; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍕 Massa Real - Cardápio 🍕</h1>
+        
+        <div class="category">Pizzas</div>
+        <div class="item">Mussarela - R$ 30,00 <button class="btn" onclick="addToCart('Mussarela', 30)">Adicionar</button></div>
+        <div class="item">Calabresa - R$ 35,00 <button class="btn" onclick="addToCart('Calabresa', 35)">Adicionar</button></div>
+        
+        <div class="category">Salgados</div>
+        <div class="item">Esfirra de Carne - R$ 5,00 <button class="btn" onclick="addToCart('Esfirra de Carne', 5)">Adicionar</button></div>
+        <div class="item">Esfirra de Queijo - R$ 5,00 <button class="btn" onclick="addToCart('Esfirra de Queijo', 5)">Adicionar</button></div>
+        
+        <div class="category">Bebidas</div>
+        <div class="item">Refrigerante Lata - R$ 6,00 <button class="btn" onclick="addToCart('Refrigerante Lata', 6)">Adicionar</button></div>
+        <div class="item">Suco Natural - R$ 8,00 <button class="btn" onclick="addToCart('Suco Natural', 8)">Adicionar</button></div>
+        
+        <h2>🛒 Carrinho</h2>
+        <ul id="cart"></ul>
+        <button class="btn" onclick="checkout()">Finalizar Pedido</button>
+    </div>
+    
+    <script>
+        let cart = [];
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            updateCart();
+        }
+
+        function updateCart() {
+            let cartList = document.getElementById("cart");
+            cartList.innerHTML = "";
+            cart.forEach((entry, index) => {
+                let listItem = document.createElement("li");
+                listItem.textContent = `${entry.item} - R$ ${entry.price.toFixed(2)}`;
+                cartList.appendChild(listItem);
+            });
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+            let orderDetails = cart.map(entry => `${entry.item} - R$ ${entry.price.toFixed(2)}`).join("\n");
+            let total = cart.reduce((sum, entry) => sum + entry.price, 0);
+            let message = `Olá, gostaria de fazer um pedido:\n${orderDetails}\nTotal: R$ ${total.toFixed(2)}`;
+            let whatsappNumber = "SEU_NUMERO_AQUI"; // Adicionar o número do WhatsApp quando definido
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+        }
+    </script>
+</body>
+</html>
